@@ -1,8 +1,8 @@
 import tkinter as tk
 from tkinter import filedialog as fd
-import traceback
 import helper_functions as hf
 import parse_fw_file as pf
+import config as conf
 
 class ParseFw:
 
@@ -10,9 +10,15 @@ class ParseFw:
         self.master = master
         master.title("Jack's Fixed Width File Parser")
 
+        # icon
         #self.master.iconbitmap(r'C:/Users/jack.trowbridge/Documents/Allied/parseFileGui/straw_hat.ico')
-        self.master.iconbitmap(r'C:/Users/jack.trowbridge/Documents/Allied/parseFileGui/jack.ico')
+        #self.master.iconbitmap(r'C:/Users/jack.trowbridge/Documents/Allied/parseFileGui/jack.ico')
+        icon_file_path = conf.ico_dir + "jack.ico"
+        self.master.iconbitmap(icon_file_path)
 
+    ##############
+    # WIDGETS
+    ############
         # Configure frames
         master_frame = tk.Frame(master, relief=tk.SUNKEN,bd=2, padx=10, pady=10)#, bg='red')
         option_frame = tk.Frame(master_frame, bd=2, padx=5, pady=5)#, bg='green')
@@ -50,7 +56,7 @@ class ParseFw:
     ##############
     # GRID SHIT
     ############
-        # widgets:
+        # widgets
         self.f_in_label.grid(row=0, column=0)
         self.f_in_box.grid(row=0, column=1, padx = 5)
         self.f_in_button.grid(row=0, column=2, padx = 5)
@@ -65,7 +71,7 @@ class ParseFw:
         self.run_btn.pack()
         self.log_box.pack()
 
-        # frames:
+        # frames
         master_frame.grid()
         option_frame.grid(row=0, column=1)
         run_frame.grid(row=1,column=1)
@@ -75,10 +81,16 @@ class ParseFw:
 # METHODS
 ############
     def print_exception(self, message):
+        '''
+        Sets log message to given message and font as red
+        '''
         self.log_message.set(message)
         self.log_box.config(fg='red')
 
     def parse_file(self):
+        '''
+        Parses given file using given source, target, and widths
+        '''
         message = ""
 
         # verify arguments:
@@ -103,6 +115,10 @@ class ParseFw:
             self.print_exception(message)
 
     def verify_args(self):
+        '''
+        Verifies source file, target file, and widths.
+        Files must have valid paths and widths must be string of comma-separated integers
+        '''
         out_message, out = "", True
 
         # verify source file
@@ -138,6 +154,9 @@ class ParseFw:
         return out
 
     def get_filename(self):
+        '''
+        Set source file and target file parameters automatically
+        '''
         try:
             self.f_in.set(fd.askopenfilename(title="Select File")) # get and set in file
             self.f_out.set(hf.get_out_fname(self.f_in.get())) # automatically set out file
@@ -146,37 +165,21 @@ class ParseFw:
             self.print_exception(message)
 
     def set_out_file(self):
+        '''
+        Set target file parameter
+        '''
         try:
             self.f_out.set(fd.asksaveasfilename(title="Save As"))
         except Exception as e:
             message = "Error getting target file name: " + str(e)
             self.print_exception(message)
 
-        # add radio buttons for single line
-
-# would be useful to have gui that takes csv file and converts into fixed width file
-#   might not be perfect
-#   but, would probably be fine since I can just fill with white space which gets trimmed anyway
-#   annoying things would be auto-formatted dates and leading zero's
-# could also have one to change values in a csv
-#   would be very chill if I could make an editor...
-#   but this probably already exists for excel
-#   tried importing a file into excel and it won't let the widths not be ascending??
-
-# should print warning about not having excel file open
-
-
-# should add exception handling everywhere with "finally" blocks to write to log
-# there are so many places to add exception handling...
-
-# god dammit should really just add logging for the full traceback of errors...
-
 def main():
-    # should add exception handling and logging here
-    #   it's sooo booooring though
     root = tk.Tk()
     gui = ParseFw(root)
     root.mainloop()
 
 if __name__ == "__main__":
     main()
+    # add radio buttons for single line
+    # add logging :(
