@@ -4,11 +4,11 @@ Simple program and GUI to parse fixed-width files.
 
 ### Requirements
 
-Python 3 must be installed and added to the Path variable. The Python 3.7.1 installer is included- make sure to check "Add to Path".
+Python 3 must be installed and added to the Path variable. The Python 3.7.1 installer is included. Make sure to check "Add to Path".
 
 ### Installing
 
-If necessary, run the Python installer, making sure ot check "Add to Path".
+If necessary, run the Python installer, making sure to check "Add to Path".
 
 To install, simply run "install.bat". By default, this creates shortcut on desktop and start menu. The start menu shortcut will not appear until after a restart.
 
