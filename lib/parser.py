@@ -1,4 +1,5 @@
 import tkinter as tk
+from tkinter import ttk
 from tkinter import filedialog as fd
 import helper_functions as hf
 import parse_fw_file as pf
@@ -16,46 +17,69 @@ class ParseFw:
         icon_file_path = conf.ico_dir + "jack.ico"
         self.master.iconbitmap(icon_file_path)
 
+        # create notebook for tabbing
+        self.master_note = ttk.Notebook(self.master)
+
+        # load configurations
+        self.parser_conf(self.master_note)
+        self.edit_conf(self.master_note)
+
+        self.master_note.add(self.master_parser_frame, text = 'Parse File')
+        self.master_note.add(self.master_edit_frame, text = "Edit File", compound=tk.TOP)
+        self.master_note.pack()
+
     ##############
-    # WIDGETS
+    # METHODS
     ############
+
+    def edit_conf(self, parent):
+        '''
+        Tkinter configuration for the edit tab
+        '''
+        self.master_edit_frame = tk.Frame(parent)
+
+        tk.Button(self.master_edit_frame, text='Exit', command=self.master.destroy).pack(padx=100, pady=100)
+###########
+        #----------
+        # WIDGETS & FRAMES
+        #----------
         # Configure frames
-        master_frame = tk.Frame(master, relief=tk.SUNKEN,bd=2, padx=10, pady=10)#, bg='red')
-        option_frame = tk.Frame(master_frame, bd=2, padx=5, pady=5)#, bg='green')
-        run_frame = tk.Frame(master_frame, bd=2, padx=5, pady=5)#, bg='blue')
-        log_frame = tk.Frame(master_frame, relief=tk.SUNKEN, bd=2, padx=5, pady=5, bg='white')
+        self.master_edit_frame = tk.Frame(parent, relief=tk.SUNKEN,bd=2, padx=10, pady=10)#, bg='red')
+        self.option_frame = tk.Frame(self.master_edit_frame, bd=2, padx=5, pady=5)#, bg='green')
+        self.run_frame = tk.Frame(self.master_edit_frame, bd=2, padx=5, pady=5)#, bg='blue')
+        self.log_frame = tk.Frame(self.master_edit_frame, relief=tk.SUNKEN, bd=2, padx=5, pady=5, bg='white')
 
         # Select file row
-        self.f_in_label = tk.Label(option_frame, text = "Select File:")
+        self.f_in_label = tk.Label(self.option_frame, text = "Select File:")
         self.f_in = tk.StringVar()
         self.f_in.set("")
-        self.f_in_box = tk.Entry(option_frame, width=50,textvariable=self.f_in)
-        self.f_in_button = tk.Button(option_frame, text="Browse", command=self.get_filename)
+        self.f_in_box = tk.Entry(self.option_frame, width=50,textvariable=self.f_in)
+        self.f_in_button = tk.Button(self.option_frame, text="Browse", command=self.get_filename)
 
         # Output file row
-        self.f_out_label = tk.Label(option_frame, text = "Output File:")
+        self.f_out_label = tk.Label(self.option_frame, text = "Output File:")
         self.f_out = tk.StringVar()
         self.f_out.set("")
-        self.f_out_box = tk.Entry(option_frame, width=50,textvariable=self.f_out)
-        self.f_out_button = tk.Button(option_frame, text="Browse", command=self.set_out_file)
+        self.f_out_box = tk.Entry(self.option_frame, width=50,textvariable=self.f_out)
+        self.f_out_button = tk.Button(self.option_frame, text="Browse", command=self.set_out_file)
 
         # File widths row
-        self.f_widths_label = tk.Label(option_frame, text = "File Widths:")
+        self.f_widths_label = tk.Label(self.option_frame, text = "File Widths:")
         self.widths = tk.StringVar()
         self.widths.set("")
-        self.f_widths_box = tk.Entry(option_frame,width=50,textvariable=self.widths)
+        self.f_widths_box = tk.Entry(self.option_frame,width=50,textvariable=self.widths)
 
         # Run button
-        self.run_btn = tk.Button(run_frame, text="Parse File", command=self.parse_file)
+        self.run_btn = tk.Button(self.run_frame, text="Parse File", command=self.parse_file)
 
         # Log box:
         self.log_message = tk.StringVar()
         self.log_message.set("Parse a file!")
-        self.log_box = tk.Label(log_frame, width=62, height=5, anchor=tk.NW, justify=tk.LEFT, textvariable=self.log_message, bg='white', wraplength=430)
+        self.log_box = tk.Label(self.log_frame, width=62, height=5, anchor=tk.NW, justify=tk.LEFT, textvariable=self.log_message, bg='white', wraplength=430)
 
-    ##############
-    # GRID SHIT
-    ############
+        #------------
+        # GRID SHIT
+        #------------
         # widgets
         self.f_in_label.grid(row=0, column=0)
         self.f_in_box.grid(row=0, column=1, padx = 5)
@@ -72,14 +96,76 @@ class ParseFw:
         self.log_box.pack()
 
         # frames
-        master_frame.grid()
-        option_frame.grid(row=0, column=1)
-        run_frame.grid(row=1,column=1)
-        log_frame.grid(row=2,column=1)
+        self.master_edit_frame.grid()
+        self.option_frame.grid(row=0, column=1)
+        self.run_frame.grid(row=1,column=1)
+        self.log_frame.grid(row=2,column=1)
 
-##############
-# METHODS
-############
+    def parser_conf(self, parent):
+        '''
+        Tkinter configuration for the parser tab
+        '''
+        #----------
+        # WIDGETS & FRAMES
+        #----------
+        # Configure frames
+        self.master_parser_frame = tk.Frame(parent, relief=tk.SUNKEN,bd=2, padx=10, pady=10)#, bg='red')
+        self.option_frame = tk.Frame(self.master_parser_frame, bd=2, padx=5, pady=5)#, bg='green')
+        self.run_frame = tk.Frame(self.master_parser_frame, bd=2, padx=5, pady=5)#, bg='blue')
+        self.log_frame = tk.Frame(self.master_parser_frame, relief=tk.SUNKEN, bd=2, padx=5, pady=5, bg='white')
+
+        # Select file row
+        self.f_in_label = tk.Label(self.option_frame, text = "Select File:")
+        self.f_in = tk.StringVar()
+        self.f_in.set("")
+        self.f_in_box = tk.Entry(self.option_frame, width=50,textvariable=self.f_in)
+        self.f_in_button = tk.Button(self.option_frame, text="Browse", command=self.get_filename)
+
+        # Output file row
+        self.f_out_label = tk.Label(self.option_frame, text = "Output File:")
+        self.f_out = tk.StringVar()
+        self.f_out.set("")
+        self.f_out_box = tk.Entry(self.option_frame, width=50,textvariable=self.f_out)
+        self.f_out_button = tk.Button(self.option_frame, text="Browse", command=self.set_out_file)
+
+        # File widths row
+        self.f_widths_label = tk.Label(self.option_frame, text = "File Widths:")
+        self.widths = tk.StringVar()
+        self.widths.set("")
+        self.f_widths_box = tk.Entry(self.option_frame,width=50,textvariable=self.widths)
+
+        # Run button
+        self.run_btn = tk.Button(self.run_frame, text="Parse File", command=self.parse_file)
+
+        # Log box:
+        self.log_message = tk.StringVar()
+        self.log_message.set("Parse a file!")
+        self.log_box = tk.Label(self.log_frame, width=62, height=5, anchor=tk.NW, justify=tk.LEFT, textvariable=self.log_message, bg='white', wraplength=430)
+
+        #------------
+        # GRID SHIT
+        #------------
+        # widgets
+        self.f_in_label.grid(row=0, column=0)
+        self.f_in_box.grid(row=0, column=1, padx = 5)
+        self.f_in_button.grid(row=0, column=2, padx = 5)
+
+        self.f_out_label.grid(row=1, column=0)
+        self.f_out_box.grid(row=1, column=1)
+        self.f_out_button.grid(row=1, column=2)
+
+        self.f_widths_label.grid(row=2, column=0)
+        self.f_widths_box.grid(row=2, column=1)
+
+        self.run_btn.pack()
+        self.log_box.pack()
+
+        # frames
+        self.master_parser_frame.grid()
+        self.option_frame.grid(row=0, column=1)
+        self.run_frame.grid(row=1,column=1)
+        self.log_frame.grid(row=2,column=1)
+
     def print_exception(self, message):
         '''
         Sets log message to given message and font as red
