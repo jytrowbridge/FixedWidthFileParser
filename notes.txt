@@ -1,0 +1,25 @@
+HOW BEST TO DO THIS?
+    - could make them all distinct attributes (edit in box, edit log box, etc)
+        - I think this is the safest option
+        - I could still write a function to return frames that are shared?
+        - plus I need to be able to grab fill out te box dynamically
+    - could write a function that takes a parent and creates the shared objects
+        - but would need to be local variables
+    - I could also maybe make a generic file manipulation class
+        - in, widths, log box, out (optional)
+        - then I could grid the things later and add custom things...
+        - might need to store these in an array to be able to log to all levels
+
+    - definitely not doing this the best way oh well though
+
+- would be cool if you can save elemnts so you don't have to copy the widths every time
+
+- should just call the encase parser in the another function
+    this is getting very convoluted
+
+- if I can't add stuff to the grid after it's been gridded there's not much point of doing this
+    - seems to work
+    - can't tell if i'm doing it wrong or if adding frames is fucked up
+    - yay it works
+    - for some reason the grid has to be on a separate line from the declaration
+- l

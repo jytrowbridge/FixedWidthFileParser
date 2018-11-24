@@ -25,7 +25,6 @@ def verify_file(file_path, exists=False):
         return True
 
 def get_path_dir(path):
-    # should add more error handling...
     return path[ : path.rfind('/')]
 
 def verify_widths(widths):
@@ -38,9 +37,12 @@ def verify_widths(widths):
             return False
     return True
 
-# damn, should really be doing try/catch blocks...
-# whatever, that can be 2.0
-
+def print_exception(tk_obj, message):
+    '''
+    Sets log message to given message and font as red
+    '''
+    tk_obj.log_message.set(message)
+    tk_obj.log_box.config(fg='red')
 
 
 if __name__ == "__main__":

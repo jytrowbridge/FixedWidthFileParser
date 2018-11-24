@@ -3,12 +3,9 @@
 # 	file is single line, but multi-line parser was run
 # add some try/except blocks
 
-# need to open the file
-def parse_fw_file(in_file, out_file, widths):
+def get_value(in_file, row, field, widths):
 	'''
-	Returns tuple [result, message] where:
-	Result is booelan value representing success or failure of script
-	Message is string to be printed to user
+	Returns value at specified row and field number of file
 	'''
 	widths = widths.split(",")
 
@@ -21,7 +18,7 @@ def parse_fw_file(in_file, out_file, widths):
 	#print(widths_sum)
 
 	# open files:
-	with open(in_file, 'r') as in_file, open(out_file, 'w') as out_file:
+	with open(in_file, 'r') as in_file:
 		# loop through file:
 		for line in in_file:
 			index += 1
