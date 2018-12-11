@@ -2,6 +2,7 @@ import tkinter as tk
 import helper_functions as hf
 import parse_fw_file as pf
 import parse_single_line_fw as slpf
+from tkinter import filedialog as fd
 
 class FileEditGui:
 
@@ -101,6 +102,13 @@ class FileEditGui:
             message = "Error getting target file name: " + str(e)
             hf.print_exception(self, message)
 
+# IT DOESN'T MAKE SENSE THAT THESE ARE IN THIS FILE
+    # try moving it to another file...
+    # I think the issue was that the command of a button cannot take arguments or something
+    # just wrap it in another function?
+    # might even make sense to stick it in another file
+    # if I move it out of this file will need to pass a tk_obj as arg in place of "self"
+
     def parse_file(self):
         '''
         Parses given file using given source, target, and widths
@@ -117,9 +125,11 @@ class FileEditGui:
 
         # parse file:
         try:
-            if self.type == 'MULTI':
+            if self.type.get() == 'MULTI':
+                print("ran multi")
                 parse_result = pf.parse_fw_file(self.f_in.get(), self.f_out.get(), self.widths.get()) # returns tuple [result: boolean, message: str]
             else:
+                print("ran single")
                 parse_result = slpf.parse_single_line_fw_file(self.f_in.get(), self.f_out.get(), self.widths.get()) # returns tuple [result: boolean, message: str]
                 #print("success")
             if parse_result[0]:
@@ -138,6 +148,8 @@ class FileEditGui:
         Verifies source file, target file, and widths.
         Files must have valid paths and widths must be string of comma-separated integers
         '''
+
+        # will need to add out file as a toggle
 
         out_message, out = "", True
 
@@ -174,11 +186,5 @@ class FileEditGui:
         return out
 
 
-"""
-    def print_exception(self, message):
-        '''
-        Sets log message to given message and font as red
-        '''
-        self.log_message.set(message)
-        self.log_box.config(fg='red')
-"""
+###
+# this needs major cleaning up oh well

@@ -62,7 +62,7 @@ class ParseFw:
         self.master_edit_obj.field_lbl = tk.Label(self.master_edit_obj.edit_args_frame, text="Field Number:")
         self.master_edit_obj.field_box = tk.Entry(self.master_edit_obj.edit_args_frame, width=5, textvariable=self.master_edit_obj.field)
         #self.master_edit_obj.pad_hide = tk.Button(self.master_edit_obj.edit_args_frame, text="Show Pad Options", command=self.hide_pad_options)
-        self.master_edit_obj.pad_hide = tk.Button(self.master_edit_obj.edit_args_frame, textvariable=self.master_edit_obj.v_pad_lbl, command=self.hide_pad_options)
+        self.master_edit_obj.pad_hide = tk.Button(self.master_edit_obj.edit_args_frame, textvariable=self.master_edit_obj.v_pad_lbl, command=self.hide_pad_options, width=14)
 
         # grid
         self.master_edit_obj.edit_args_frame.grid(row=3, column = 0, padx=5, pady=5, columnspan=3)

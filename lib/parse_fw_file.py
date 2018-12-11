@@ -29,10 +29,10 @@ def parse_fw_file(in_file, out_file, widths):
 			# make sure widths line up with line length:
 			if len(line) < widths_sum and not narrower:
 				narrower = True
-				out_message += "Warning: Line length less than expected (starting at line " + str(index) + ")"
+				out_message += "Warning: Line length less than expected (starting at line " + str(index) + ")\n"
 			elif len(line) > widths_sum and not wider:
 				wider = True
-				out_message += "Warning: Line length greater than expected (starting at line " + str(index) + ")"
+				out_message += "Warning: Line length greater than expected (starting at line " + str(index) + ")\n"
 				# Note that this won't break the function; when line[end:] is called, will return ''
 
 			out_line = ""
