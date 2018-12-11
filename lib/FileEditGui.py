@@ -2,6 +2,7 @@ import tkinter as tk
 import helper_functions as hf
 import parse_fw_file as pf
 import parse_single_line_fw as slpf
+import field_value as fv
 from tkinter import filedialog as fd
 
 class FileEditGui:
@@ -16,7 +17,7 @@ class FileEditGui:
         option_frame elements are gridded
         run_frame elements are not
         '''
-
+        self.out = out
         #----------
         # WIDGETS & FRAMES
         #----------
@@ -34,7 +35,7 @@ class FileEditGui:
         self.f_in_button = tk.Button(self.option_frame, text="Browse", command=self.get_filename)
 
         # Output file row if flag is True
-        if out:
+        if self.out:
             self.f_out_label = tk.Label(self.option_frame, text = "Output File:")
             self.f_out = tk.StringVar()
             self.f_out.set("")
@@ -87,7 +88,7 @@ class FileEditGui:
         '''
         try:
             self.f_in.set(fd.askopenfilename(title="Select File")) # get and set in file
-            self.f_out.set(hf.get_out_fname(self.f_in.get())) # automatically set out file
+            if self.out: self.f_out.set(hf.get_out_fname(self.f_in.get())) # automatically set out file
         except Exception as e:
             message = "Error getting source file name: " + str(e)
             hf.print_exception(self, message)
@@ -119,7 +120,7 @@ class FileEditGui:
         try:
             if not self.verify_args(): return
         except Exception as e:
-            message = "Error validating arguemnts: " + str(e)
+            message = "Error validating arguments: " + str(e)
             hf.print_exception(self, message)
             return
 
@@ -145,45 +146,94 @@ class FileEditGui:
 
     def verify_args(self):
         '''
-        Verifies source file, target file, and widths.
+        Verifies source file, widths, and target file if out=True
         Files must have valid paths and widths must be string of comma-separated integers
         '''
 
         # will need to add out file as a toggle
+        # ah shit already used out to be boolean for valid out path?
 
-        out_message, out = "", True
+        out_message, valid = "", True
 
         # verify source file
         if self.f_in.get() =='':
             out_message += "Please enter source file path\n"
-            out = False
+            valid = False
         else:
             if not hf.verify_file(self.f_in.get(), exists=True):
-                out = False
+                valid = False
                 out_message += "Source file doesn't exist or isn't writeable\n"
 
         # verify target file
-        if self.f_out.get() =='':
-            out_message +="Please enter target file path\n"
-            out = False
-        else:
-            if not hf.verify_file(self.f_out.get(), exists=False):
-                out = False
-                out_message += "Target file directory does not exist\n"
+        if self.out:
+            if self.f_out.get() =='':
+                out_message +="Please enter target file path\n"
+                valid = False
+            else:
+                if not hf.verify_file(self.f_out.get(), exists=False):
+                    valid = False
+                    out_message += "Target file directory does not exist\n"
 
         # verify widths
         if self.widths.get() =='':
             out_message += "Please enter file widths\n"
-            out = False
+            valid = False
         else:
             if not hf.verify_widths(self.widths.get()):
-                out = False
+                valid = False
                 out_message += "Invalid widths; please supply string of comma-separated integers\n"
 
-        if not out:
+        if not valid:
             self.log_message.set(out_message)
             self.log_box.config(fg='red')
-        return out
+        return valid
+
+    def get_value(self):
+        #print('the function call to GET_VALUE worked')
+        message = ""
+
+        # verify arguments:
+        try:
+            if not self.verify_args(): return
+        except Exception as e:
+            message = "Error validating arguemnts: " + str(e)
+            hf.print_exception(self, message)
+            return
+
+        try:
+            success, message, value = fv.get_value(self.f_in.get(), self.row.get(), self.field.get(), self.widths.get())
+            if success:
+                self.field_value_var.set(value)
+                self.log_box.config(fg='green')
+            else:
+                self.log_box.config(fg='red')
+            self.log_message.set(message)
+        except Exception as e:
+            message = "Error getting field value: " + str(e)
+            hf.print_exception(self, message)
+
+    def update_value(self):
+        #print('the function call to GET_VALUE worked')
+        message = ""
+
+        # verify arguments:
+        try:
+            if not self.verify_args(): return
+        except Exception as e:
+            message = "Error validating arguments: " + str(e)
+            hf.print_exception(self, message)
+            return
+
+        try:
+            success, message = fv.update_value(self.f_in.get(), self.row.get(), self.field.get(), self.widths.get(), self.field_value_var.get(), self.pad_char.get(), self.pad_side.get())
+            if success:
+                self.log_box.config(fg='green')
+            else:
+                self.log_box.config(fg='red')
+            self.log_message.set(message)
+        except Exception as e:
+            message = "Error updating field value: " + str(e)
+            hf.print_exception(self, message)
 
 
 ###

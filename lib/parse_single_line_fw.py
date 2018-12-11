@@ -1,13 +1,14 @@
 def parse_single_line_fw_file(in_file, out_file, widths):
-	line = in_file.readline()
-	out_message = ""	# if function returns false, out_message will be printed to log box
+	widths = [int(x) for x in widths.split(",")]
 
-	while len(line) >= line_len:
-		parse = line[0:line_len]
-		line = line[line_len:]
-		if txt_out == 1:
-			out_file.write(parse + "\n")
-		else:
+	with open(in_file, 'r') as f_in, open(out_file, 'w') as f_out:
+		line = f_in.readline()
+		out_message = ""	# if function returns false, out_message will be printed to log box
+		line_len = len(line)
+		while len(line) >= line_len:
+			parse = line[0:line_len]
+			line = line[line_len:]
+
 			out_line = ""
 			start = 0
 			count = 0
@@ -19,6 +20,6 @@ def parse_single_line_fw_file(in_file, out_file, widths):
 				if count != len(widths):
 					out_line += ","
 			out_line += "\n"
-			out_file.write(out_line)
+			f_out.write(out_line)
 
 	return [ True , out_message ]

@@ -11,12 +11,15 @@ def get_value(in_file, row, field, widths):
 	Returns value at specified row and field number of file
 	Assumes widths given as string of comma-separated integers
 	'''
+
 	# initialize variables
 	index = 0
 	out_message = ""
 	row_found = False
 	field_found = False
 	field_value = ""
+	row = int(row)
+	field = int(field)
 
 	# convert to integers
 	widths = [ int(x) for x in widths.split(",") ]
@@ -70,7 +73,8 @@ def update_value(file, row, field, widths, new_value, pad_char, pad_side):
 	row_found = False
 	field_found = False
 	valid = True
-	field_value = ""
+	row = int(row)
+	field = int(field)
 
 	# convert to integers
 	widths = [ int(x) for x in widths.split(",") ]
@@ -104,7 +108,6 @@ def update_value(file, row, field, widths, new_value, pad_char, pad_side):
 				# validate replacement value against field width:
 				len_diff = end - start - len(new_value)
 				if len_diff < 0 :
-
 					out_message = "Replacement value is longer than field to be replaced"
 					valid = False
 
@@ -133,24 +136,23 @@ def update_value(file, row, field, widths, new_value, pad_char, pad_side):
 
 	return [ row_found and field_found and valid , out_message ]
 
-
-	# should do argument validation in parent
-		# basically copy of parser validation
-
-	# need to clean up the validation above
-
 def replace_value(text, start, end, value, pad_char, pad_side):
 	'''
 	Replaces value between the given indices in text with value;
 	Pads with pad char on left or right for pad_side values of LEFT and RIGHT
 	'''
-	len_diff = end - start - len(value) - 1
+	len_diff = end - start - len(value)
 	if pad_side == 'RIGHT' :
 		value = value + pad_char * len_diff
 	elif pad_side == 'LEFT' :
 		value = pad_char * len_diff + value
 
-	return text[0:start] + value + text[end + 1 : ]
+	if end >= len(text): # need to add line break if replacing the end of a line
+		lb = '\n'
+	else:
+		lb = ''
+
+	return text[0:start] + value + text[end : ] + lb
 
 def get_indices(widths, field):
 	'''

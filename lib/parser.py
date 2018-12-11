@@ -44,12 +44,13 @@ class ParseFw:
 
         #######
         # field value box
-        self.master_edit_obj.field_label = tk.Label(self.master_edit_obj.option_frame,text='Field Value:')
-        self.master_edit_obj.field_value = tk.Entry(self.master_edit_obj.option_frame,width=50)
+        self.master_edit_obj.field_value_var = tk.StringVar()
+        self.master_edit_obj.field_value_label = tk.Label(self.master_edit_obj.option_frame,text='Field Value:')
+        self.master_edit_obj.field_value_box = tk.Entry(self.master_edit_obj.option_frame,width=50, textvariable=self.master_edit_obj.field_value_var)
 
         # grid
-        self.master_edit_obj.field_label.grid(row=2,column=0,pady=5)
-        self.master_edit_obj.field_value.grid(row=2,column=1)
+        self.master_edit_obj.field_value_label.grid(row=2,column=0,pady=5)
+        self.master_edit_obj.field_value_box.grid(row=2,column=1)
 
         #######
         # arguments frame
@@ -93,8 +94,8 @@ class ParseFw:
         #######
         # run buttons
         self.master_edit_obj.run_button_frame = tk.Frame(self.master_edit_obj.option_frame)
-        self.master_edit_obj.update_value = tk.Button(self.master_edit_obj.run_button_frame,text="Update Value",width=10)
-        self.master_edit_obj.get_value = tk.Button(self.master_edit_obj.run_button_frame,text="Get Value",width=10)
+        self.master_edit_obj.update_value = tk.Button(self.master_edit_obj.run_button_frame,text="Update Value",command=self.master_edit_obj.update_value,width=10)
+        self.master_edit_obj.get_value = tk.Button(self.master_edit_obj.run_button_frame,text="Get Value",command=self.master_edit_obj.get_value,width=10)
 
         # run button grid
         self.master_edit_obj.run_button_frame.grid(row=5,column=1)
