@@ -209,12 +209,19 @@ class FileEditGui:
 
         # verify arguments:
         try:
+            # verify shared arguments:
             if not self.verify_args(): return
+
+            # verify edit-specific args: caught by valueError
+            row = int(self.row.get())
+            field = int(self.field.get())
+        except ValueError:
+            hf.print_exception(self, 'Please make sure Row and Field are integers')
+            return            
         except Exception as e:
             message = "Error validating arguemnts: " + str(e)
             hf.print_exception(self, message)
             return
-
         try:
             success, message, value = fv.get_value(self.f_in.get(), self.row.get(), self.field.get(), self.widths.get())
             if success:
@@ -233,10 +240,20 @@ class FileEditGui:
 
         # verify arguments:
         try:
+            # verify shared arguments:
             if not self.verify_args(): return
 
+            # verify edit-specific args: caught by valueError
+            row = int(self.row.get())
+            field = int(self.field.get())
+
             # verify update-specific args:
-            #self.row.get()
+            if len(self.pad_char.get()) != 1:
+                hf.print_exception(self, 'Please pass only a single character as the pad character')
+                return
+        except ValueError:
+            hf.print_exception(self, 'Please make sure Row and Field are integers')
+            return
         except Exception as e:
             message = "Error validating arguments: " + str(e)
             hf.print_exception(self, message)
