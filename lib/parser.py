@@ -25,7 +25,7 @@ class ParseFw:
         self.edit_conf(self.master_note)
 
         self.master_note.add(self.master_parser_frame, text = 'Parse File')
-        self.master_note.add(self.master_edit_frame, text = "Edit File", compound=tk.TOP)
+        self.master_note.add(self.master_edit_frame, text = "Edit File")#, compound=tk.TOP)
         self.master_note.grid()
 
     ##############
@@ -40,7 +40,7 @@ class ParseFw:
         # initialize the object
         self.master_edit_obj = feg.FileEditGui(parent)
         self.master_edit_frame = self.master_edit_obj.master_frame
-        self.master_edit_obj.log_message.set("Select a file!")
+        self.master_edit_obj.log_message.set("Select a file!\nWidths can also be set from a single line, comma-separated file.\nDefault padding is spaces on left.")
 
         #######
         # field value box
@@ -119,7 +119,7 @@ class ParseFw:
         # initialize the object
         self.master_parser_obj = feg.FileEditGui(parent, out=True)
         self.master_parser_frame = self.master_parser_obj.master_frame
-        self.master_parser_obj.log_message.set("Parse a file!")
+        self.master_parser_obj.log_message.set("Parse a file!\nWidths can also be set from a single line, comma-separated file.")
 
         # add run button
         self.master_parser_obj.run_btn = tk.Button(self.master_parser_obj.run_frame, text="Parse File", command=self.master_parser_obj.parse_file)
