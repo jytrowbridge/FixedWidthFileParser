@@ -14,8 +14,8 @@ class ParseFw:
         # icon
         #self.master.iconbitmap(r'C:/Users/jack.trowbridge/Documents/Allied/parseFileGui/straw_hat.ico')
         #self.master.iconbitmap(r'C:/Users/jack.trowbridge/Documents/Allied/parseFileGui/jack.ico')
-        #icon_file_path = conf.ico_dir + "jack.ico"
-        #self.master.iconbitmap(icon_file_path)
+        icon_file_path = conf.ico_dir + "jack.ico"
+        self.master.iconbitmap(icon_file_path)
 
         # create notebook for tabbing
         self.master_note = ttk.Notebook(self.master)

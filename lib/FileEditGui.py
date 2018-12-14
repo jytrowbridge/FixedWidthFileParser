@@ -217,7 +217,7 @@ class FileEditGui:
             field = int(self.field.get())
         except ValueError:
             hf.print_exception(self, 'Please make sure Row and Field are integers')
-            return            
+            return
         except Exception as e:
             message = "Error validating arguemnts: " + str(e)
             hf.print_exception(self, message)
