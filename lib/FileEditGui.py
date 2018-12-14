@@ -47,6 +47,7 @@ class FileEditGui:
         self.widths = tk.StringVar()
         self.widths.set("")
         self.f_widths_box = tk.Entry(self.option_frame,width=50,textvariable=self.widths)
+        self.f_widths_button = tk.Button(self.option_frame, text="Browse", command=self.set_widths)
 
 
         # Log box:
@@ -69,9 +70,11 @@ class FileEditGui:
 
             self.f_widths_label.grid(row=2, column=0)#,pady=3)
             self.f_widths_box.grid(row=2, column=1)
+            self.f_widths_button.grid(row=2, column=2)
         else:
             self.f_widths_label.grid(row=1, column=0)#,pady=3)
             self.f_widths_box.grid(row=1, column=1)
+            self.f_widths_button.grid(row=1, column=2)
 
         #self.run_btn.pack()
         self.log_box.pack()
@@ -103,12 +106,24 @@ class FileEditGui:
             message = "Error getting target file name: " + str(e)
             hf.print_exception(self, message)
 
-# IT DOESN'T MAKE SENSE THAT THESE ARE IN THIS FILE
-    # try moving it to another file...
-    # I think the issue was that the command of a button cannot take arguments or something
-    # just wrap it in another function?
-    # might even make sense to stick it in another file
-    # if I move it out of this file will need to pass a tk_obj as arg in place of "self"
+    def set_widths(self):
+        '''
+        Set source file and target file parameters automatically
+        '''
+        try:
+            with open(fd.askopenfilename(title="Select File") , 'r') as f:
+                widths = f.readline().strip()
+                print(widths)
+                if hf.verify_widths(widths):
+                    self.widths.set(widths)
+                    self.log_message.set('Widths set from file')
+                    self.log_box.config(fg='green')
+                else:
+                    self.log_message.set('Error reading widths file. Please make sure widths are on a single line and are comma-separated')
+                    self.log_box.config(fg='red')
+        except Exception as e:
+            message = "Error reading widths file: " + str(e)
+            hf.print_exception(self, message)
 
     def parse_file(self):
         '''
@@ -219,6 +234,9 @@ class FileEditGui:
         # verify arguments:
         try:
             if not self.verify_args(): return
+
+            # verify update-specific args:
+            #self.row.get()
         except Exception as e:
             message = "Error validating arguments: " + str(e)
             hf.print_exception(self, message)

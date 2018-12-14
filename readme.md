@@ -1,6 +1,6 @@
 # Fixed Width File Parser
 
-Simple program and GUI to parse fixed-width files.
+Simple program and GUI to parse and edit fixed-width files. 
 
 ### Requirements
 
@@ -16,9 +16,13 @@ To install, simply run "install.bat". By default, this creates shortcut on deskt
 
 If install failed, the parser can be run via the "run_parsre.bat" file.
 
-Enter valid path to a fixed-width file, valid path to where the parsed file should be written, and a comma-separated list of widths, and run.
+To parse, enter valid path to a fixed-width file, valid path to where the parsed file should be written, and a comma-separated list of widths, and run.
 
 If the widths don't match the actual length of the lines, a warning will be thrown but the file will be parsed as able.
+
+Widths can be set from a file. The file must have the widths on the first line as comma-separated integers.
+
+
 
 ## Authors
 

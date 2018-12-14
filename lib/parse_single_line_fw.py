@@ -4,7 +4,13 @@ def parse_single_line_fw_file(in_file, out_file, widths):
 	with open(in_file, 'r') as f_in, open(out_file, 'w') as f_out:
 		line = f_in.readline()
 		out_message = ""	# if function returns false, out_message will be printed to log box
-		line_len = len(line)
+
+
+		# lol what this will always be true...
+		# to get multiple recs, line_len should be set to the widths sum
+
+		#line_len = len(line)
+		line_len = sum(widths)
 		while len(line) >= line_len:
 			parse = line[0:line_len]
 			line = line[line_len:]

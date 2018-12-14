@@ -21,5 +21,100 @@ HOW BEST TO DO THIS?
     - seems to work
     - can't tell if i'm doing it wrong or if adding frames is fucked up
     - yay it works
-    - for some reason the grid has to be on a separate line from the declaration
-- l
+    - for some reason the grid has to be on a separate line from the declaration`
+- should add a loading thingy
+
+-----------
+12/10/18
+where the fuck did I leave off?
+
+I think I haven't finished the editor yet
+also may have broken the parser, not really sure
+
+also need to clean this up a lot, this is a fucking mess
+also need to add a bunch of comments
+-----
+
+if add logginng, is it possible to catch exceptions and print them to the log box?
+
+    blah
+    probably should add logging anyway
+
+just get the fucking get_value working
+
+-----------
+what the fuck i actually don't need to write out every line
+    not sure why I thought that before
+    buuut I do need to figure out how to overwrite a single line
+    shiit might need to create new file and delete old
+
+    "No. You cannot safely write to a file you are also reading, as any changes you make to the file could overwrite content you have not read yet.
+     To do it safely you'd have to read the file into a buffer, updating any lines as required, and then re-write the file."
+     => buffer as in array?...
+        this seems a bit excessive
+        but then again, so is creating a temporary file
+
+    can get lines with just lines = file.readlines
+--
+        might need to add line break somewhere
+        replacing 1 character too many (I guess exclusive vs inclusive?)
+
+
+---------
+12/11
+
+added browse button
+
+unit tests to run:
+    parsing:
+        all-fine test
+        broken tests:
+            bad in/out file
+            bad widths
+            width tests:
+                normal
+                bigger/smaller
+        test single-width parser
+    getting/editing:
+        try on actual thingies
+        ummmm idk just fuck around a bit?
+
+    installing
+        icon doesn't work??
+
+    maybe should add note when the found field is empty
+
+-----
+        YAAAY I think other than that this is a fucking mess it's pretty good to go
+        going to finish some unit tests later tn then make sure the installer works then send it out to the boys
+-----
+        is it even possible to move the file op functions out of the FileEditGui file?
+
+--------------------
+    unit testing
+
+    single line parse:
+        normal works
+        single rec:
+            widths sum < actual length:
+                works but throws no warning... do I even need the warnings?
+            widths sum > actual length:
+                works but throws no warning
+        multiple recs:
+            doesn't work- only parses one file
+            FIXED
+        APPROVED
+
+    multi-line parse:
+        I thiiiiink we're good but can double check to be safe
+
+    get value:
+        widths bigger than line; requested field starts in line, goes beyond end
+            doesn't work
+        need argument verification for row/field number
+        should make sure the pad value is length 1
+        ** I think this is it.... **
+
+
+    misc notes:
+        get rid of print statements
